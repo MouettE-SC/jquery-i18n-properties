@@ -1,11 +1,12 @@
 {
   "name": "jquery-i18n-properties",
-  "version": "1.2.7",
+  "version": "1.2.7.eb1",
   "homepage": "https://github.com/jquery-i18n-properties/jquery-i18n-properties",
   "authors": [
     "Nuno Grilo <nfgrilo@gmail.com>",
     "Daniel Pocock <daniel@pocock.pro>",
-    "Adrian Fish <adrian.r.fish@gmail.com>"
+    "Adrian Fish <adrian.r.fish@gmail.com>",
+    "Charles Leclerc <leclerc.charles@gmail.com>"
   ],
   "description": "Library for internationalising JS apps",
   "main": "jquery.i18n.properties.js",

@@ -4,7 +4,7 @@
  * Dual licensed under the GPL (http://dev.jquery.com/browser/trunk/jquery/GPL-LICENSE.txt) and
  * MIT (http://dev.jquery.com/browser/trunk/jquery/MIT-LICENSE.txt) licenses.
  *
- * @version     1.2.7
+ * @version     1.2.7.eb1
  * @url         https://github.com/jquery-i18n-properties/jquery-i18n-properties
  * @inspiration Localisation assistance for jQuery (http://keith-wood.name/localisation.html)
  *              by Keith Wood (kbwood{at}iinet.com.au) June 2007
@@ -43,6 +43,7 @@
      * });
      * @param  name      (string/string[], optional) names of file to load (eg, 'Messages' or ['Msg1','Msg2']). Defaults to "Messages"
      * @param  language    (string, optional) language/country code (eg, 'en', 'en_US', 'pt_BR'). if not specified, language reported by the browser will be used instead.
+     * @param  lang_default (string, optional) language/country code (eg, 'en', 'en_US', 'pt_BR') of the default language file loaded (the language file(s) download will be skipped).
      * @param  path      (string, optional) path of directory that contains file to load
      * @param  mode      (string, optional) whether bundles keys are available as JavaScript variables/functions or as a map (eg, 'vars' or 'map')
      * @param  debug     (boolean, optional) whether debug statements are logged at the console
@@ -55,6 +56,7 @@
         var defaults = {
             name: 'Messages',
             language: '',
+            lang_default: '',
             path: '',
             mode: 'vars',
             cache: false,
@@ -95,9 +97,22 @@
             if (settings.language.length >= 5) {
                 var longCode = settings.language.substring(0, 5);
                 longFileName = settings.path + file + '_' + longCode + '.properties';
-                fileNames = [defaultFileName, shortFileName, longFileName];
+                if (settings.lang_default != shortCode && settings.lang_default != longCode) {
+                    fileNames = [defaultFileName, shortFileName, longFileName];
+                } else if (settings.lang_default == shortCode) {
+                    fileNames = [defaultFileName, longFileName];
+                    settings.totalFiles -= 1;
+                } else {
+                    fileNames = [defaultFileName, shortFileName];
+                    settings.totalFiles -= 1;
+                }
             } else {
-                fileNames = [defaultFileName, shortFileName];
+                if (settings.lang_default == shortCode) {
+                    fileNames = [defaultFileName];
+                    settings.totalFiles -= 1;
+                } else {
+                    fileNames = [defaultFileName, shortFileName];
+                }
             }
             loadAndParseFiles(fileNames, settings);
         });
